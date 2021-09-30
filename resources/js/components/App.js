@@ -1,39 +1,49 @@
 import React, {Component} from 'react';
+import { Container } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
+  //Lyouts
+import Footer from './layouts/Footer';
+import Header from './layouts/Header';
+//Pages
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Home from './pages/Home';
 
 class App extends Component {
     state = {
-        counter : 0
+       PUBLIC_URL: "/react-laravel/task-management/"
     };
 
-    incrementCounter = (value) => {
-        //Update counter value
-        let counterNew = this.state.counter + value;
-
-        this.setState({
-            counter: counterNew,
-        })
-    };
-
-    decrementCounter = () => {
-        //Update counter value -1
-        let counterNew = this.state.counter - 1;
-
-        this.setState({
-            counter: counterNew,
-        })
-    };
 
     render() { 
         return(
             <div>
-                <div className="container mt-5">
-                <h2>Count: {this.state.counter}</h2>
-                <p>
-                    <button className="btn btn-success btn-lg" onClick={() => this.incrementCounter(10)}>+</button>
-                    <button className="btn btn-danger btn-lg ml-2" onClick={this.decrementCounter}>-</button>
-                </p>
-                </div>
+               <Router>
+               <Header/>
+      <div>
+
+        <Container>
+        <Switch>
+          <Route path={`${this.state.PUBLIC_URL}about`}>
+            <About />
+          </Route>
+          <Route path={`${this.state.PUBLIC_URL}contact`}>
+            <Contact />
+          </Route>
+          <Route path={`${this.state.PUBLIC_URL}`}>
+            <Home />
+          </Route>
+        </Switch>
+           <Footer/>
+        </Container>
+      </div>
+    </Router>
             </div>
         );
     }
