@@ -1,0 +1,46 @@
+<?php
+
+namespace App\repositories;
+use App\interfaces\Crudinterface;
+use App\Models\Models\Project;
+use Illuminate\Http\Request;
+
+class ProjectRepository implements Crudinterface
+{
+
+    public function getAll()
+    {
+        $projects = Project::all();
+        return $projects;
+    }
+    public function findById($id)
+    {
+        $project = Project::with('tasks')->find($id);
+        return $project;
+    }
+    public function create(Request $request)
+    {
+        $project = new Project();
+        $project->name = $request->name;
+        $project->description = $request->description;
+        $project->user_id = $request->user_id;
+        $project->save();
+        return $project;
+    }
+    public function edit(Request $request, $id)
+    {
+        $project = $this->findById($id);
+        $project->name = $request->name;
+        $project->description = $request->description;
+        $project->user_id = $request->user_id;
+        $project->save();
+        return $project;
+    }
+    public function delete($id)
+    {
+        $project = $this->findById($id);
+        $project->delete();
+        return $project;
+    }
+
+ }
