@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
   } from "react-router-dom";
   //Lyouts
 import Footer from './layouts/Footer';

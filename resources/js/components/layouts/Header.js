@@ -9,19 +9,21 @@ const Header = () => {
             <div>
                 <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
                     <Container>
-    <Navbar.Brand href="#Home"><Link to={`${publicUrl}`}>Task Management</Link></Navbar.Brand>
+                    <Link to={`${publicUrl}`}>
+    <Navbar.Brand>Task Management</Navbar.Brand>
+    </Link>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
-        <Nav.Link href="#">
-            <Link to={`${publicUrl}`}>Home</Link>
-            </Nav.Link>
-        <Nav.Link href="#">
-        <Link to={`${publicUrl}about`}>About</Link>
-            </Nav.Link>
-            <Nav.Link href="#">
-        <Link to={`${publicUrl}contact`}>Contact</Link>
-            </Nav.Link>
+      <Link to={`${publicUrl}`}>
+        <Nav.Item className="text-white mr-2">Home</Nav.Item>
+        </Link>
+        <Link to={`${publicUrl}about`}>
+        <Nav.Item className="text-white mr-2">About</Nav.Item>
+        </Link>
+        <Link to={`${publicUrl}contact`}>
+        <Nav.Item className="text-white mr-2">Contact</Nav.Item>
+        </Link>
       </Nav>
     </Navbar.Collapse>
     </Container>
