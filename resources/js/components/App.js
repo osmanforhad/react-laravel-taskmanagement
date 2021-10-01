@@ -13,6 +13,7 @@ import Header from './layouts/Header';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
+import ProjectList from './pages/projects/ProjectList';
 
 class App extends Component {
     state = {
@@ -27,13 +28,16 @@ class App extends Component {
                <Header/>
       <div>
 
-        <Container>
+        <Container className="p-4">
         <Switch>
           <Route path={`${this.state.PUBLIC_URL}about`}>
             <About />
           </Route>
           <Route path={`${this.state.PUBLIC_URL}contact`}>
             <Contact />
+          </Route>
+          <Route path={`${this.state.PUBLIC_URL}projects`}>
+            <ProjectList />
           </Route>
           <Route path={`${this.state.PUBLIC_URL}`}>
             <Home />
