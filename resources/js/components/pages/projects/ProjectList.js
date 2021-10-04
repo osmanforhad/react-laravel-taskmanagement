@@ -1,6 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import {Card, Button, Badge, Spinner} from 'react-bootstrap'
+import { Link } from 'react-router-dom';
+import { PUBLIC_URL } from '../../../constants';
+
+
 
 class ProjectList extends React.Component {
   state = {
@@ -23,11 +27,20 @@ class ProjectList extends React.Component {
         isLoading: false,
       });
     });
-  }
+  };
 
   render() { 
     return <div>
-      <h2>Project List <Badge variant="primary">{this.state.projectList.length}</Badge> </h2>
+      <div className="header-part">
+        <div className="float-left">
+        <h2>Project List {""}
+          <Badge variant="primary">{this.state.projectList.length}</Badge> </h2>
+        </div>
+        <div className="float-right">
+          <Link to={`${PUBLIC_URL}projects/create`} className="btn btn-info">+ Create New</Link>
+        </div>
+        <div className="clearfix"></div>
+      </div>
       {
       this.state.isLoading && (
         <div className="text-center mt-5">

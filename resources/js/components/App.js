@@ -6,6 +6,8 @@ import {
     Switch,
     Route
   } from "react-router-dom";
+import { PUBLIC_URL } from '../constants';
+
   //Lyouts
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
@@ -13,14 +15,10 @@ import Header from './layouts/Header';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
+import ProjectCreate from './pages/projects/ProjectCreate';
 import ProjectList from './pages/projects/ProjectList';
 
 class App extends Component {
-    state = {
-       PUBLIC_URL: "/react-laravel/task-management/"
-    };
-
-
     render() { 
         return(
             <div>
@@ -30,16 +28,19 @@ class App extends Component {
 
         <Container className="p-4">
         <Switch>
-          <Route path={`${this.state.PUBLIC_URL}about`}>
+          <Route path={`${PUBLIC_URL}about`}>
             <About />
           </Route>
-          <Route path={`${this.state.PUBLIC_URL}contact`}>
+          <Route path={`${PUBLIC_URL}contact`}>
             <Contact />
           </Route>
-          <Route path={`${this.state.PUBLIC_URL}projects`}>
+          <Route path={`${PUBLIC_URL}projects/create`}>
+            <ProjectCreate />
+          </Route>
+          <Route path={`${PUBLIC_URL}projects`}>
             <ProjectList />
           </Route>
-          <Route path={`${this.state.PUBLIC_URL}`}>
+          <Route path={`${PUBLIC_URL}`}>
             <Home />
           </Route>
         </Switch>

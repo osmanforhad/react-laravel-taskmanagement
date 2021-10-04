@@ -1,0 +1,1 @@
+export const PUBLIC_URL = "/react-laravel/task-management/";
