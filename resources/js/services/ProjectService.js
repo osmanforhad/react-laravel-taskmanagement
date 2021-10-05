@@ -17,3 +17,12 @@ export const storeNewProject = async(data) => {
       return res.data;
     });
 };
+
+export const updateProject = async(id, data) => {
+  data.user_id = 1;
+  //api calling
+  return await axios.put(`http://localhost/react-laravel/task-management/api/projects/${id}`, data)
+  .then(res => {
+    return res.data;
+  });
+};

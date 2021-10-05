@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { PUBLIC_URL } from '../../../constants';
 import TaskCreate from '../tasks/TaskCreate';
 import TaskList from '../tasks/TaskList';
+import ProjectEdit from './ProjectEdit';
 
 class ProjectView extends React.Component {
   state = {
@@ -12,7 +13,8 @@ class ProjectView extends React.Component {
     taskList: [],
     isLoading: false,
 
-    toggleAddTask: false
+    toggleAddTask: false,
+    toggleEditProject: false,
   };
 
   componentDidMount() {
@@ -36,8 +38,14 @@ class ProjectView extends React.Component {
   toggleAddTask = () => {
     this.setState({
       toggleAddTask: !this.state.toggleAddTask
-    })
-  }
+    });
+  };
+
+  toggleEditProject = () => {
+    this.setState({
+      toggleEditProject: !this.state.toggleEditProject
+    });
+  };
 
   onCompleteTaskCreate = (task) => {
     this.toggleAddTask();
@@ -46,26 +54,50 @@ class ProjectView extends React.Component {
     this.setState({
       taskList: tasks,
     });
-  }
+  };
+
+  onCompleteProjectEdit = () => {
+    this.getProjectDetails();
+    this.toggleEditProject();
+  };
 
   render() { 
     return <div>
       <div className="header-part">
         <div className="float-left">
-        <h2>{this.state.project.name} {""}
-          <Badge variant="primary">{this.state.taskList.length}</Badge> </h2>
+        {!this.state.toggleEditProject && (
+          <>
+          <h2>
+          {this.state.project.name} {""}
+          <Badge variant="primary">{this.state.taskList.length}</Badge> 
+          </h2>
+          <div>{this.state.project.description}</div>
+          </>
+        )}
+        {this.state.toggleEditProject && (
+          <>
+           <ProjectEdit project={this.state.project} onCompleteProjectEdit={this.onCompleteProjectEdit}/>
+          </>
+        )}
         </div>
         <div className="float-right">
-          <Button className="btn btn-success mr-2">Edit</Button>
-          <Button className="btn btn-primary mr-2" 
-          onClick={() => this.toggleAddTask()}>
+          <button className={`btn btn-outline-${this.state.project.status === 1 ? "success" : "info"} mr-2`} disabled>
+            {this.state.project.status === 1 && (
+              <span className="">Completed</span>)}
+              {this.state.project.status === 0 && (
+              <span className="">Pending...</span>)}
+          </button>
+          <Button className="btn btn-success mr-2" onClick={() => this.toggleEditProject()}>
+          {!this.state.toggleEditProject && <span>+ Edit</span>}
+            {this.state.toggleEditProject && <span>Cancel Editing</span>}
+          </Button>
+          <Button className="btn btn-primary mr-2" onClick={() => this.toggleAddTask()}>
             {!this.state.toggleAddTask && <span>+ Add Task</span>}
             {this.state.toggleAddTask && <span>Cancel Adding</span>}
             </Button>
         </div>
         <div className="clearfix"></div>
       </div>
-      <div>{this.state.project.description}</div>
 
       {this.state.toggleAddTask && (
         <TaskCreate project_id={this.props.match.params.id} 
