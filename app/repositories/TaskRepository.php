@@ -24,6 +24,7 @@ class TaskRepository implements Crudinterface
         $task->name = $request->name;
         $task->description = $request->description;
         $task->project_id = $request->project_id;
+        $task->status = 0;
         $task->save();
         return $task;
     }
@@ -33,6 +34,7 @@ class TaskRepository implements Crudinterface
         $task->name = $request->name;
         $task->description = $request->description;
         $task->project_id = $request->project_id;
+        $task->status = $request->status;
         $task->save();
         return $task;
     }

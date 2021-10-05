@@ -3,6 +3,7 @@ import React from 'react';
 import {Card, Button, Badge, Spinner} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { PUBLIC_URL } from '../../../constants';
+import TaskList from '../tasks/TaskList';
 
 
 
@@ -56,10 +57,9 @@ class ProjectList extends React.Component {
         {project.name} <Badge variant="primary">{project.tasks_count}</Badge> 
         </Card.Header>
       <Card.Body>
-        <Card.Text>
-          {project.description}
-        </Card.Text>
-        <Button variant="primary" className="mr-2">View</Button>
+        <Card.Text>{project.description}</Card.Text>
+          <TaskList taskList={project.tasks} isDetailsView={false}/>
+          <Link to={`${PUBLIC_URL}projects/view/${project.id}`} className="btn btn-primary mr-2">View</Link>
         <Button variant="success" className="mr-2">Edit</Button>
         <Button variant="danger" className="mr-2">Delete</Button>
       </Card.Body>
