@@ -3942,6 +3942,38 @@ var TaskList = /*#__PURE__*/function (_React$Component) {
       };
     }());
 
+    _defineProperty(_assertThisInitialized(_this), "deleteTask", /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(id) {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return (0,_services_TaskService__WEBPACK_IMPORTED_MODULE_2__.deleteTask)(id);
+
+              case 2:
+                response = _context2.sent;
+
+                if (response.success) {
+                  _this.props.onEditTask();
+                } else {
+                  alert('Sorry !! Something wet wrong !!');
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
+      };
+    }());
+
     return _this;
   }
 
@@ -3973,9 +4005,9 @@ var TaskList = /*#__PURE__*/function (_React$Component) {
                     })]
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 className: "float-right",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
                   className: "btn btn-outline-".concat(task.status === 1 ? 'info' : 'success', " btn-sm"),
                   onClick: function onClick() {
                     return _this2.toggleCompleteStatus(task);
@@ -3985,7 +4017,13 @@ var TaskList = /*#__PURE__*/function (_React$Component) {
                   }), task.status === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                     children: "Mark as Pending"
                   })]
-                })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                  className: "btn btn-outline-danger btn-sm ml-2",
+                  onClick: function onClick() {
+                    return _this2.deleteTask(task.id);
+                  },
+                  children: "Delete"
+                })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                 className: "clearfix"
               }), _this2.props.isDetailsView && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Text, {
@@ -4173,7 +4211,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getTaskList": () => (/* binding */ getTaskList),
 /* harmony export */   "storeNewTask": () => (/* binding */ storeNewTask),
-/* harmony export */   "updateTask": () => (/* binding */ updateTask)
+/* harmony export */   "updateTask": () => (/* binding */ updateTask),
+/* harmony export */   "deleteTask": () => (/* binding */ deleteTask)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -4245,6 +4284,32 @@ var updateTask = /*#__PURE__*/function () {
 
   return function updateTask(_x2, _x3) {
     return _ref2.apply(this, arguments);
+  };
+}();
+var deleteTask = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(id) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("http://localhost/react-laravel/task-management/api/tasks/".concat(id)).then(function (res) {
+              return res.data;
+            });
+
+          case 2:
+            return _context3.abrupt("return", _context3.sent);
+
+          case 3:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function deleteTask(_x4) {
+    return _ref3.apply(this, arguments);
   };
 }();
 

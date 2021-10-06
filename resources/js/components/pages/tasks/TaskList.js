@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, Button, Badge, Spinner} from 'react-bootstrap';
-import { updateTask } from '../../../services/TaskService';
+import { deleteTask, updateTask } from '../../../services/TaskService';
 
 class TaskList extends React.Component {
   
@@ -12,6 +12,16 @@ class TaskList extends React.Component {
     }
     const response = await updateTask(item.id, item);
     this.props.onEditTask();
+  };
+
+  deleteTask = async(id) => {
+    const response = await deleteTask(id);
+    if (response.success) {
+      this.props.onEditTask();
+
+    } else {
+      alert('Sorry !! Something wet wrong !!');
+    }
   };
 
     render() { 
@@ -44,6 +54,10 @@ class TaskList extends React.Component {
                 {task.status === 0 && <span>Mark as Completed</span>}
                 {task.status === 1 && <span>Mark as Pending</span>}
                 </button>
+                <button className="btn btn-outline-danger btn-sm ml-2" 
+                onClick={() => this.deleteTask(task.id)}>
+                  Delete
+                  </button>
             </div>
             <div className="clearfix"></div>
           {this.props.isDetailsView && (

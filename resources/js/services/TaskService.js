@@ -26,3 +26,11 @@ export const updateTask = async(id, data) => {
     return res.data;
   });
 };
+
+export const deleteTask = async(id) => {
+  //api calling
+  return await axios.delete(`http://localhost/react-laravel/task-management/api/tasks/${id}`)
+  .then(res => {
+    return res.data;
+  });
+};
