@@ -3,6 +3,7 @@ import React from 'react';
 import {Card, Button, Badge, Spinner} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { PUBLIC_URL } from '../../../constants';
+import { deleteProject, getProjectList } from '../../../services/ProjectService';
 import TaskList from '../tasks/TaskList';
 
 
@@ -17,17 +18,30 @@ class ProjectList extends React.Component {
     this.getProjectLists()
   }
 
-  getProjectLists = () => {
+  getProjectLists = async() => {
     this.setState({isLoading: true});
-    //API calling
-    axios.get('http://localhost/react-laravel/task-management/api/projects')
-    .then(res => {
-      const projectList = res.data.data;
+    const response = await getProjectList();
+    if (response.success) {
       this.setState({
-        projectList,
+        projectList: response.data,
         isLoading: false,
       });
-    });
+
+    } else {
+      this.setState({
+        isLoading: false,
+      });
+    }
+  };
+
+  deleteProject = async(id) => {
+    const response = await deleteProject(id);
+    if (response.success) {
+      this.getProjectLists();
+
+    } else {
+      alert('Sorry !! Something wet wrong !!');
+    }
   };
 
   render() { 
@@ -59,9 +73,9 @@ class ProjectList extends React.Component {
       <Card.Body>
         <Card.Text>{project.description}</Card.Text>
           <TaskList taskList={project.tasks} isDetailsView={false}/>
-          <Link to={`${PUBLIC_URL}projects/view/${project.id}`} className="btn btn-primary mr-2">View</Link>
-        <Button variant="success" className="mr-2">Edit</Button>
-        <Button variant="danger" className="mr-2">Delete</Button>
+          <Link to={`${PUBLIC_URL}projects/view/${project.id}`} 
+          className="btn btn-primary mr-2">View & Edit</Link>
+        <Button variant="danger" className="mr-2" onClick={() => this.deleteProject(project.id)}>Delete</Button>
       </Card.Body>
     </Card>
     ))
