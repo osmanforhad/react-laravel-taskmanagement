@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import {Card, Button, Badge, Spinner} from 'react-bootstrap';
+import { Card, Button, Badge, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PUBLIC_URL } from '../../../constants';
 import TaskCreate from '../tasks/TaskCreate';
@@ -23,26 +23,28 @@ class ProjectView extends React.Component {
   }
 
   getProjectDetails = () => {
-    this.setState({isLoading: true});
+    this.setState({ isLoading: true });
     //API calling
     axios.get(`http://localhost/react-laravel/task-management/api/projects/${this.props.match.params.id}`)
-    .then(res => {
-      this.setState({
-        taskList: res.data.data.tasks,
-        project: res.data.data,
-        isLoading: false,
+      .then(res => {
+        this.setState({
+          taskList: res.data.data.tasks,
+          project: res.data.data,
+          isLoading: false,
+        });
       });
-    });
   };
 
   toggleAddTask = () => {
     this.setState({
+      toggleEditProject: false,
       toggleAddTask: !this.state.toggleAddTask
     });
   };
 
   toggleEditProject = () => {
     this.setState({
+      toggleAddTask: false,
       toggleEditProject: !this.state.toggleEditProject
     });
   };
@@ -61,64 +63,69 @@ class ProjectView extends React.Component {
     this.toggleEditProject();
   };
 
-  render() { 
+  onEditTask = () => {
+    this.getProjectDetails();
+  };
+
+  render() {
     return <div>
       <div className="header-part">
         <div className="float-left">
-        {!this.state.toggleEditProject && (
-          <>
-          <h2>
-          {this.state.project.name} {""}
-          <Badge variant="primary">{this.state.taskList.length}</Badge> 
-          </h2>
-          <div>{this.state.project.description}</div>
-          </>
-        )}
-        {this.state.toggleEditProject && (
-          <>
-           <ProjectEdit project={this.state.project} onCompleteProjectEdit={this.onCompleteProjectEdit}/>
-          </>
-        )}
+          {!this.state.toggleEditProject && (
+            <>
+              <h2>
+                {this.state.project.name} {""}
+                <Badge variant="primary">{this.state.taskList.length}</Badge>
+              </h2>
+              <div>{this.state.project.description}</div>
+            </>
+          )}
+          {this.state.toggleEditProject && (
+            <>
+              <ProjectEdit project={this.state.project} onCompleteProjectEdit={this.onCompleteProjectEdit} />
+            </>
+          )}
         </div>
         <div className="float-right">
           <button className={`btn btn-outline-${this.state.project.status === 1 ? "success" : "info"} mr-2`} disabled>
             {this.state.project.status === 1 && (
               <span className="">Completed</span>)}
-              {this.state.project.status === 0 && (
+            {this.state.project.status === 0 && (
               <span className="">Pending...</span>)}
           </button>
           <Button className="btn btn-success mr-2" onClick={() => this.toggleEditProject()}>
-          {!this.state.toggleEditProject && <span>+ Edit</span>}
+            {!this.state.toggleEditProject && <span>+ Edit</span>}
             {this.state.toggleEditProject && <span>Cancel Editing</span>}
           </Button>
           <Button className="btn btn-primary mr-2" onClick={() => this.toggleAddTask()}>
             {!this.state.toggleAddTask && <span>+ Add Task</span>}
             {this.state.toggleAddTask && <span>Cancel Adding</span>}
-            </Button>
+          </Button>
         </div>
         <div className="clearfix"></div>
       </div>
 
       {this.state.toggleAddTask && (
-        <TaskCreate project_id={this.props.match.params.id} 
-        onCompleteTaskCreate={this.onCompleteTaskCreate}/>
+        <TaskCreate project_id={this.props.match.params.id}
+          onCompleteTaskCreate={this.onCompleteTaskCreate} />
       )}
-      
-         
 
-      
+
+
+
       {this.state.isLoading && (
         <div className="text-center mt-5">
           <Spinner animation="border" role="status">
-  <span className="visually-hidden">Loading...</span>
-</Spinner>
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
       )}
 
-     <TaskList taskList={this.state.taskList} isDetailsView={true}/>
-  
+      <TaskList taskList={this.state.taskList} isDetailsView={true} 
+      onEditTask={this.onEditTask} />
+
     </div>;
   }
 }
 
-  export default ProjectView;
+export default ProjectView;

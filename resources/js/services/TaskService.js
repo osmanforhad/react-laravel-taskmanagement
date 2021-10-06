@@ -18,3 +18,11 @@ export const storeNewTask = async(data) => {
       return res.data;
     });
 };
+
+export const updateTask = async(id, data) => {
+  //api calling
+  return await axios.put(`http://localhost/react-laravel/task-management/api/tasks/${id}`, data)
+  .then(res => {
+    return res.data;
+  });
+};
