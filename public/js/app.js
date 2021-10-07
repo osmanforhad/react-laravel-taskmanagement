@@ -2616,17 +2616,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Container.js");
+/* harmony import */ var _projects_ProjectList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projects/ProjectList */ "./resources/js/components/pages/projects/ProjectList.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
 
 function Home() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
-      children: "Home Page"
-    })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_projects_ProjectList__WEBPACK_IMPORTED_MODULE_1__["default"], {})
   });
 }
 
@@ -3438,8 +3438,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Badge.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Spinner.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/InputGroup.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Form.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Spinner.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Alert.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../constants */ "./resources/js/constants.js");
 /* harmony import */ var _tasks_TaskCreate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tasks/TaskCreate */ "./resources/js/components/pages/tasks/TaskCreate.js");
 /* harmony import */ var _tasks_TaskList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../tasks/TaskList */ "./resources/js/components/pages/tasks/TaskList.js");
@@ -3500,9 +3503,11 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "state", {
       project: {},
       taskList: [],
+      searchTaskList: [],
       isLoading: false,
       toggleAddTask: false,
-      toggleEditProject: false
+      toggleEditProject: false,
+      searchText: ""
     });
 
     _defineProperty(_assertThisInitialized(_this), "getProjectDetails", function () {
@@ -3514,6 +3519,7 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("http://localhost/react-laravel/task-management/api/projects/".concat(_this.props.match.params.id)).then(function (res) {
         _this.setState({
           taskList: res.data.data.tasks,
+          searchTaskList: res.data.data.tasks,
           project: res.data.data,
           isLoading: false
         });
@@ -3541,7 +3547,8 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
       tasks.unshift(task);
 
       _this.setState({
-        taskList: tasks
+        taskList: tasks,
+        searchTaskList: tasks
       });
     });
 
@@ -3553,6 +3560,34 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "onEditTask", function () {
       _this.getProjectDetails();
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "onSearchTasks", function (e) {
+      var searchText = e.target.value;
+
+      _this.setState({
+        isLoading: true
+      });
+
+      if (searchText.length > 0) {
+        var searchData = _this.state.taskList.filter(function (item) {
+          var itemData = item.name + ' ' + item.description;
+          var textData = searchText.trim().toLowerCase();
+          return itemData.trim().toLowerCase().indexOf(textData) !== -1;
+        });
+
+        _this.setState({
+          searchTaskList: searchData,
+          searchText: searchText,
+          isLoading: false
+        });
+      } else {
+        _this.setState({
+          searchText: searchText
+        });
+
+        _this.getProjectDetails();
+      }
     });
 
     return _this;
@@ -3578,7 +3613,7 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h2", {
                 children: [this.state.project.name, " ", "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
                   variant: "primary",
-                  children: this.state.taskList.length
+                  children: this.state.searchTaskList.length
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 children: this.state.project.description
@@ -3589,6 +3624,19 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
                 onCompleteProjectEdit: this.onCompleteProjectEdit
               })
             })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "float-left ml-5",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+              className: "mb-3",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"].Control, {
+                placeholder: "Type task to search...",
+                "aria-label": "Type task to search...",
+                "aria-describedby": "",
+                onChange: function onChange(e) {
+                  return _this2.onSearchTasks(e);
+                }
+              })
+            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "float-right",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
@@ -3601,7 +3649,7 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
                 className: "",
                 children: "Pending..."
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__["default"], {
               className: "btn btn-success mr-2",
               onClick: function onClick() {
                 return _this2.toggleEditProject();
@@ -3611,7 +3659,7 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
               }), this.state.toggleEditProject && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                 children: "Cancel Editing"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__["default"], {
               className: "btn btn-primary mr-2",
               onClick: function onClick() {
                 return _this2.toggleAddTask();
@@ -3630,7 +3678,7 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
           onCompleteTaskCreate: this.onCompleteTaskCreate
         }), this.state.isLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "text-center mt-5",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_11__["default"], {
             animation: "border",
             role: "status",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
@@ -3638,8 +3686,11 @@ var ProjectView = /*#__PURE__*/function (_React$Component) {
               children: "Loading..."
             })
           })
+        }), this.state.searchTaskList.length === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_12__["default"], {
+          variant: "warning",
+          children: "No Task Found !! Please create one..."
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tasks_TaskList__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          taskList: this.state.taskList,
+          taskList: this.state.searchTaskList,
           isDetailsView: true,
           onEditTask: this.onEditTask
         })]
