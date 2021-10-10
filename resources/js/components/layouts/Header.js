@@ -27,6 +27,12 @@ const Header = () => {
         <Link to={`${publicUrl}contact`}>
         <Nav.Item className="text-white mr-2">Contact</Nav.Item>
         </Link>
+        <Link to={`${publicUrl}login`}>
+        <Nav.Item className="text-white mr-2">Sign In</Nav.Item>
+        </Link>
+        <Link to={`${publicUrl}register`}>
+        <Nav.Item className="text-white mr-2">Sign Up</Nav.Item>
+        </Link>
       </Nav>
     </Navbar.Collapse>
     </Container>

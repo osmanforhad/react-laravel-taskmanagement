@@ -13,6 +13,7 @@ import Footer from './layouts/Footer';
 import Header from './layouts/Header';
 //Pages
 import About from './pages/About';
+import Register from './pages/auth/Register';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
 import ProjectCreate from './pages/projects/ProjectCreate';
@@ -35,6 +36,8 @@ class App extends Component {
           <Route path={`${PUBLIC_URL}projects`} exact={true} component={ProjectList} />
           <Route path={`${PUBLIC_URL}projects/view/:id`} exact={true} component={ProjectView} />
           <Route path={`${PUBLIC_URL}projects/create`} exact={true} component={ProjectCreate} />
+          {/* <Route path={`${PUBLIC_URL}login`} exact={true} component={Login} /> */}
+          <Route path={`${PUBLIC_URL}register`} exact={true} component={Register} />
         </Switch>
            <Footer/>
         </Container>

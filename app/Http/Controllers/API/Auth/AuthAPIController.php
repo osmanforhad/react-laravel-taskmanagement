@@ -66,9 +66,9 @@ class AuthAPIController extends Controller
         //validation
         $formData = $request->all();
         $validator = \Validator::make($formData, [
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required|confirmed'
+            'name' => 'required|min:3|max:30',
+            'email' => 'required|email|unique:users|max:100',
+            'password' => 'required|confirmed|min:8'
         ], [
             'name.required' => 'Please give your Name',
             'email.required' => 'Please give your Email',
