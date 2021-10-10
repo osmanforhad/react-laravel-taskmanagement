@@ -21,6 +21,12 @@ class AuthRepository implements Authinterface
 
     public function registerUser(Request $request)
     {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
+        return $user;
     }
 
     public function findUserByEmail($email)

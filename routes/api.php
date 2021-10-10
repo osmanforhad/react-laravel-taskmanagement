@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('projects', 'App\Http\Controllers\API\ProjectsController');
 Route::apiResource('tasks', 'App\Http\Controllers\API\TasksController');
 
-Route::get('auth/create-token', 'App\Http\Controllers\API\Auth\LoginAPIController@createToken');
+Route::get('auth/create-token', 'App\Http\Controllers\API\Auth\AuthAPIController@createToken');
 
-Route::post('auth/login', 'App\Http\Controllers\API\Auth\LoginAPIController@login');
-Route::post('auth/register', 'App\Http\Controllers\API\Auth\RegisterAPIController@register');
+Route::post('auth/login', 'App\Http\Controllers\API\Auth\AuthAPIController@login');
+Route::post('auth/register', 'App\Http\Controllers\API\Auth\AuthAPIController@register');

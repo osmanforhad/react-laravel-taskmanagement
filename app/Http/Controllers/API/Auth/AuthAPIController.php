@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\repositories\AuthRepository;
 use App\Models\User;
 
-class LoginAPIController extends Controller
+class AuthAPIController extends Controller
 {
     public $authrepository;
 
@@ -32,7 +32,7 @@ class LoginAPIController extends Controller
             'email' => 'required',
             'password' => 'required'
         ], [
-            'email.required' => 'Please give your user Email',
+            'email.required' => 'Please give your Email',
             'password.required' => 'Please give your Password',
         ]);
         if ($validator->fails()) {
@@ -56,6 +56,47 @@ class LoginAPIController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => "Invalid Email and Password",
+                'errors' => null,
+            ]);
+        }
+    }
+
+    public function register(Request $request)
+    {
+        //validation
+        $formData = $request->all();
+        $validator = \Validator::make($formData, [
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required|confirmed'
+        ], [
+            'name.required' => 'Please give your Name',
+            'email.required' => 'Please give your Email',
+            'email.unique' => 'This email is already registered, please login or use another email',
+            'password.required' => 'Please give your Password',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->getMessageBag()->first(),
+                'errors' => $validator->getMessageBag(),
+            ]);
+        }
+
+        $user = $this->authrepository->registerUser($request);
+        if (!is_null($user)) {
+            $user = $this->authrepository->findUserByEmail($request->email);
+            $accessToken = $user->createToken('authToken')->accessToken;
+            return response()->json([
+                'success' => true,
+                'message' => "Registered Successfully !!",
+                'user' => $user,
+                'access_token' => $accessToken,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => "Registration fail !!",
                 'errors' => null,
             ]);
         }
