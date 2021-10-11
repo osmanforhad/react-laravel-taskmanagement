@@ -14,3 +14,17 @@ export const registerUser = async (data) => {
       return res.data;
     });
 };
+
+/**
+ * loginUser()
+ * 
+ * @param {object} data 
+ */
+ export const loginUser = async (data) => {
+  //api calling
+  return await Axios.post(
+    "http://localhost/react-laravel/task-management/api/auth/login",
+    data).then(res => {
+      return res.data;
+    });
+};
