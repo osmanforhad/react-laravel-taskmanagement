@@ -56,8 +56,8 @@ class Login extends React.Component {
           errorMessage: "",
         });
         localStorage.setItem("loginData", JSON.stringify(response));
-        //history.push(`${PUBLIC_URL}projects`);
-
+        // history.replace(`${PUBLIC_URL}projects`);
+        window.location.href = PUBLIC_URL;
       } else {
         this.setState({
           errors: response.errors,

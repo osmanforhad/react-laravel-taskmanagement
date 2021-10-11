@@ -17,7 +17,7 @@ class ProjectList extends React.Component {
   };
 
   componentDidMount() {
-    this.getProjectLists()
+    this.getProjectLists();
   }
 
   getProjectLists = async () => {
